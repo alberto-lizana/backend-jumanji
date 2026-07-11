@@ -60,10 +60,10 @@ public class Producto {
     @Column(name="precio_final", nullable=true)
     private Integer precioFinal;
 
-    @Column(name="cant_jugadores", nullable=false)
+    @Column(name="cant_jugadores", nullable=false, length=50)
     private String cantidadJugadores;
 
-    @Column(name="duracion", nullable=false, length=100)
+    @Column(name="duracion", nullable=false, length=50)
     private String duracion;
 
     @Column(name="stock", nullable=false)
@@ -85,6 +85,11 @@ public class Producto {
     @JoinColumn(name = "estadisticas_id", nullable=false, unique=true)
     private EstadisticasVentas estadisticasVentas;
 
+    private void recalcularPrecioFinal() {
+        this.precioFinal = (int) Math.round(
+            this.precio - (this.precio * this.descuento)
+        );
+    }
 
     @PrePersist
     public void prePersist(){
@@ -101,7 +106,6 @@ public class Producto {
     @PreUpdate
     public void preUpdate() {
         this.modificadoAt = LocalDateTime.now();
+        this.recalcularPrecioFinal();
     }
-
-
 }

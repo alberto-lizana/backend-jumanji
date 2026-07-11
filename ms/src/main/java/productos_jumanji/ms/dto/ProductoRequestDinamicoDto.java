@@ -4,8 +4,6 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
@@ -21,46 +19,46 @@ import productos_jumanji.ms.enums.Categoria;
 @Getter
 @Setter
 @Builder
-public class ProductoRequestDto {
 
-    @NotBlank(message= "El nombre es obligatorio")
-    @Size(max = 100)
+public class ProductoRequestDinamicoDto {
+
+    @Size(max = 100, message="Largo máximo 100 caracteres")
     private String nombre;
 
-    @Size(max = 100)
+    @Size(max = 100, message="Largo máximo 100 caracteres")
     private String imagen;
 
-    @NotBlank(message= "La descripción es obligatoria")
-    @Size(max = 255)
+    @Size(max = 255, message="Largo máximo 255 caracteres")
     private String descripcion;
-
-    @NotNull(message= "La categoría es obligatoria")
     private Categoria categoria;
 
-    @NotNull(message= "El precio es obligatorio")
     @Positive(message= "El precio tiene que un número natural")
     private Integer precio;
 
-    @NotNull(message= "El descuento es obligatorio")
-    @Positive(message= "El precio tiene que un número natural")
-    @DecimalMin(value= "0.0")
-    @DecimalMax(value= "1.0")
+    @DecimalMin("0.0")
+    @DecimalMax("1.0")
     private Double descuento;
 
-    @NotBlank(message = "La cantidad de jugadores es obligatoria")
+    @Size(max = 50, message="Largo máximo 50 caracteres")
     private String cantidadJugadores;
 
-    @NotBlank(message= "la duración es obligatoria")
+    @Size(max = 50, message="Largo máximo 50 caracteres")
     private String duracion;
-
-    @NotNull(message= "El stock es obligatorio")
-    @PositiveOrZero(message= "El precio tiene que un número natural")
     private Integer stock;
-    
-    @NotNull(message= "La dificultad es obligatoria")
+
     @Min(value=1, message= "La dificultad mínima es de 1")
     @Max(value=5, message= "La dificultad máxima es de 5")
-    @Positive(message= "La dificultad tiene que ser un numero positivo")
     private Integer dificultad;
+
+    @PositiveOrZero
+    private Integer unidadesVendidas;
+
+    @PositiveOrZero
+    private Integer devoluciones;
+
+    @Min(value=1, message= "La rating promedio mínima es de 1")
+    @Max(value=5, message= "La rating promedio máxima es de 5")
+    @Positive(message= "El rating promedio tiene que ser un número positivo")
+    private Integer ratingPromedio;
 
 }

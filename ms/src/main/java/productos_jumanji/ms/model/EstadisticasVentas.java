@@ -42,8 +42,8 @@ public class EstadisticasVentas {
 
     @PrePersist
     private void prePersist(){
-        this.unidadesVendidas = 0;
-        this.devoluciones = 0;
+        this.unidadesVendidas = null;
+        this.devoluciones = null;
         this.ratingPromedio = null;
     }
 }

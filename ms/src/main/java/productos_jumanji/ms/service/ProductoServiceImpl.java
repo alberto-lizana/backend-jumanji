@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import productos_jumanji.ms.dto.EstadisticasResponseDto;
+import productos_jumanji.ms.dto.ProductoRequestDinamicoDto;
 import productos_jumanji.ms.dto.ProductoRequestDto;
 import productos_jumanji.ms.dto.ProductoResponseDto;
 import productos_jumanji.ms.enums.Categoria;
@@ -81,6 +82,7 @@ public class ProductoServiceImpl implements ProductoService{
     }
 
     @Transactional
+    @Override
     public void borradoLogicoProducto(Long id) {
         Producto producto = productoRepository.findProductoById(id)
                 .orElseThrow(() -> new ProductoNoEncontrado("Producto no encontrado"));
@@ -130,5 +132,73 @@ public class ProductoServiceImpl implements ProductoService{
             .modificadoAt(producto.getModificadoAt())
             .estadisticasVentas(estadisticas)
             .build();
+    }
+
+    @Transactional
+    @Override
+    public ProductoResponseDto modificarProducto(ProductoRequestDinamicoDto dto, Long id) {
+
+        Producto producto = productoRepository.findProductoById(id)
+                .orElseThrow(() -> new ProductoNoEncontrado("Producto no encontrado"));
+
+        EstadisticasVentas estadisticasProducto = producto.getEstadisticasVentas();
+
+        if (dto.getNombre() != null && !dto.getNombre().isBlank()) {
+            producto.setNombre(dto.getNombre());
+        }
+
+        if (dto.getImagen() != null && !dto.getImagen().isBlank()) {
+            producto.setImagen(dto.getImagen());
+        }
+
+        if (dto.getDescripcion() != null && !dto.getDescripcion().isBlank()) {
+            producto.setDescripcion(dto.getDescripcion());
+        }
+
+        if (dto.getCategoria() != null) {
+            producto.setCategoria(dto.getCategoria());
+        }
+
+        if (dto.getPrecio() != null) {
+            producto.setPrecio(dto.getPrecio());
+        }
+
+        if (dto.getDescuento() != null) {
+            producto.setDescuento(dto.getDescuento());
+        }
+
+        if (dto.getCantidadJugadores() != null && !dto.getNombre().isBlank()) {
+            producto.setCantidadJugadores(dto.getCantidadJugadores());
+        }
+
+        if (dto.getDuracion() != null && !dto.getNombre().isBlank()) {
+            producto.setDuracion(dto.getDuracion());
+        }
+
+        if (dto.getStock() != null) {
+            producto.setStock(dto.getStock());
+        }
+
+        if (dto.getDificultad() != null) { 
+            producto.setDificultad(dto.getDificultad());
+        }
+
+        // ESTADISTICAS 
+        if (dto.getUnidadesVendidas() != null) {
+            estadisticasProducto.setUnidadesVendidas(dto.getUnidadesVendidas());
+        }
+            
+        if (dto.getDevoluciones() != null) {
+            estadisticasProducto.setDevoluciones(dto.getDevoluciones());
+        }
+            
+        if (dto.getRatingPromedio() != null) {
+            estadisticasProducto.setRatingPromedio(dto.getRatingPromedio());
+        }
+                
+        producto.setEstadisticasVentas(estadisticasProducto);
+
+        Producto modificado = productoRepository.save(producto);
+        return toResponseDto(modificado);
     }
 }
