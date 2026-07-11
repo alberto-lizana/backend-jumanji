@@ -2,6 +2,8 @@ package productos_jumanji.ms.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import productos_jumanji.ms.enums.Categoria;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -32,5 +35,6 @@ public class ProductoResponseDto {
     private boolean estaDisponible;
     private LocalDateTime creadoAt;
     private LocalDateTime modificadoAt;
+    private EstadisticasResponseDto estadisticasVentas;
 
 }

@@ -18,6 +18,7 @@ public interface ProductoRepository extends  JpaRepository<Producto, Long>{
     @Query("""
             SELECT p
             FROM Producto p
+            JOIN FETCH p.estadisticasVentas
             WHERE p.id = :id
             """)
     Optional<Producto> findProductoById(@Param("id") Long id);
@@ -25,6 +26,7 @@ public interface ProductoRepository extends  JpaRepository<Producto, Long>{
     @Query("""
             SELECT p
             FROM Producto p
+            JOIN FETCH p.estadisticasVentas
             """)
     List<Producto> findAllProductos();
 
@@ -32,6 +34,7 @@ public interface ProductoRepository extends  JpaRepository<Producto, Long>{
             SELECT 
                 p
             FROM Producto p
+            JOIN FETCH p.estadisticasVentas
             WHERE p.categoria = :categoria
             """)
     List<Producto> findAllProductosCategoria(@Param("categoria") Categoria categoria);
@@ -54,6 +57,7 @@ public interface ProductoRepository extends  JpaRepository<Producto, Long>{
     @Query("""
         SELECT p
         FROM Producto p
+        JOIN FETCH p.estadisticasVentas
         WHERE LOWER(p.nombre) = LOWER(:nombre)
         """)
     Optional<Producto> buscarPorNombre(@Param("nombre") String nombre);

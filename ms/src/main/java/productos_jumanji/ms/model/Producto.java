@@ -2,6 +2,7 @@ package productos_jumanji.ms.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +10,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -78,7 +81,9 @@ public class Producto {
     @Column(name="modificado_at")
     private LocalDateTime modificadoAt;
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "estadisticas_id", nullable=false, unique=true)
+    private EstadisticasVentas estadisticasVentas;
 
 
     @PrePersist

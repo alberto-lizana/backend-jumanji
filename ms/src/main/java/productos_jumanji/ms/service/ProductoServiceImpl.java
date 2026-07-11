@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import productos_jumanji.ms.dto.EstadisticasResponseDto;
 import productos_jumanji.ms.dto.ProductoRequestDto;
 import productos_jumanji.ms.dto.ProductoResponseDto;
 import productos_jumanji.ms.enums.Categoria;
 import productos_jumanji.ms.exception.ProductoExistenteException;
 import productos_jumanji.ms.exception.ProductoNoEncontrado;
+import productos_jumanji.ms.model.EstadisticasVentas;
 import productos_jumanji.ms.model.Producto;
 import productos_jumanji.ms.repository.ProductoRepository;
 
@@ -56,6 +58,8 @@ public class ProductoServiceImpl implements ProductoService{
             );
         });
 
+        EstadisticasVentas nuevasEstadisticas = EstadisticasVentas.builder().build();
+
         Producto nuevoProducto = Producto.builder()
                 .nombre(dto.getNombre())
                 .imagen(dto.getImagen())
@@ -67,6 +71,7 @@ public class ProductoServiceImpl implements ProductoService{
                 .duracion(dto.getDuracion())
                 .stock(dto.getStock())
                 .dificultad(dto.getDificultad())
+                .estadisticasVentas(nuevasEstadisticas)
                 .build();
 
         Producto guardado = productoRepository.save(nuevoProducto);
@@ -96,6 +101,17 @@ public class ProductoServiceImpl implements ProductoService{
 
 
     private ProductoResponseDto toResponseDto(Producto producto) {
+        EstadisticasResponseDto estadisticas = null;
+        
+        if (producto.getEstadisticasVentas() != null) {
+            estadisticas = EstadisticasResponseDto.builder()
+                .id(producto.getEstadisticasVentas().getId())
+                .unidadesVendidas(producto.getEstadisticasVentas().getUnidadesVendidas())
+                .devoluciones(producto.getEstadisticasVentas().getDevoluciones())
+                .ratingPromedio(producto.getEstadisticasVentas().getRatingPromedio())
+                .build();
+        }
+
         return ProductoResponseDto.builder()
             .id(producto.getId())
             .nombre(producto.getNombre())
@@ -112,7 +128,7 @@ public class ProductoServiceImpl implements ProductoService{
             .estaDisponible(producto.getEstaDisponible())
             .creadoAt(producto.getCreadoAt())
             .modificadoAt(producto.getModificadoAt())
+            .estadisticasVentas(estadisticas)
             .build();
     }
 }
-

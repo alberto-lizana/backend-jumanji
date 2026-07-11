@@ -32,7 +32,7 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
-    @GetMapping
+    @GetMapping()
     ResponseEntity<List<ProductoResponseDto>> obtenerTodosLosProductos(){
         List<ProductoResponseDto> productos = productoService.obtenerTodosLosProductos();
         return ResponseEntity.ok(productos);
@@ -44,7 +44,7 @@ public class ProductoController {
         return ResponseEntity.ok(productoCat);
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Optional<ProductoResponseDto>> crearProducto(@Valid @RequestBody ProductoRequestDto dto){
         Optional<ProductoResponseDto> nuevoProducto = productoService.crearProducto(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
