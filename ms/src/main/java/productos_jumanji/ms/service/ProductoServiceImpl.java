@@ -167,11 +167,11 @@ public class ProductoServiceImpl implements ProductoService{
             producto.setDescuento(dto.getDescuento());
         }
 
-        if (dto.getCantidadJugadores() != null && !dto.getNombre().isBlank()) {
+        if (dto.getCantidadJugadores() != null && !dto.getCantidadJugadores().isBlank()) {
             producto.setCantidadJugadores(dto.getCantidadJugadores());
         }
 
-        if (dto.getDuracion() != null && !dto.getNombre().isBlank()) {
+        if (dto.getDuracion() != null && !dto.getDuracion().isBlank()) {
             producto.setDuracion(dto.getDuracion());
         }
 
