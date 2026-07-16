@@ -25,7 +25,10 @@ import productos_jumanji.ms.service.ProductoService;
 
 @RestController
 @RequestMapping("/productos")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+    "http://localhost:4200",
+    "https://front-end-angular-production.up.railway.app"
+})
 public class ProductoController {
 
     private final ProductoService productoService;
